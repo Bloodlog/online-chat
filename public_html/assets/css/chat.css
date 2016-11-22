@@ -1,0 +1,122 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    font: 14px Verdana, sans-serif;
+}
+
+.container {
+    padding: 10px;
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+.message {
+    margin-bottom: 10px;
+}
+
+.message .user {
+    float: left;
+}
+
+.message .user img {
+    border-radius: 50%;
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.message .text {
+    position: relative;
+    border-radius: 15px;
+    box-sizing: border-box;
+    margin-left: 60px;
+    padding: 15px;
+    max-width: 400px;
+    min-height: 50px;
+    background: #E5E5EA;
+    white-space: pre-line;
+}
+
+.message .text:after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 10px 9px 10px 0;
+    border-color: transparent #E5E5EA;
+    display: block;
+    width: 0;
+    z-index: 1;
+    left: -9px;
+    top: 15px;
+}
+
+.message.my .text {
+    margin-left: auto;
+    margin-right: 60px;
+    color: #fff;
+    background: #87d05b; /* Old browsers */
+    background: -moz-radial-gradient(center, ellipse cover, #87d05b 0%, #70c536 100%); /* FF3.6+ */
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #87d05b), color-stop(100%, #70c536)); /* Chrome,Safari4+ */
+    background: -webkit-radial-gradient(center, ellipse cover, #87d05b 0%, #70c536 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-radial-gradient(center, ellipse cover, #87d05b 0%, #70c536 100%); /* Opera 12+ */
+    background: -ms-radial-gradient(center, ellipse cover, #87d05b 0%, #70c536 100%); /* IE10+ */
+    background: radial-gradient(ellipse at center, #87d05b 0%, #70c536 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#87d05b', endColorstr='#70c536', GradientType=1); /* IE6-9 fallback on horizontal gradient */
+}
+
+.message.my .text:after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 10px 0 10px 9px;
+    border-color: transparent #70c536;
+    display: block;
+    width: 0;
+    z-index: 1;
+    left: auto;
+    right: -9px;
+    top: 15px;
+}
+
+.message.my .user {
+    float: right;
+}
+
+.message .text.img {
+    background-size: cover;
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+}
+
+.control {
+    background: #f0f0f0;
+    padding: 10px;
+    z-index: 10;
+}
+
+#text {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    font: 14px Verdana, sans-serif;
+    padding: 10px;
+    border: solid 1px #0a85d3;
+    border-radius: 5px;
+}
+
+/* Desktops and laptops ----------- */
+@media only screen and (min-width: 1224px) {
+    .container {
+        margin-bottom: 50px;
+    }
+
+    .control {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Slim 3</title>
+        <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+        <style>
+            body {
+                margin: 50px 0 0 0;
+                padding: 0;
+                width: 100%;
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                text-align: center;
+                color: #aaa;
+                font-size: 18px;
+            }
+
+            h1 {
+                color: #719e40;
+                letter-spacing: -3px;
+                font-family: 'Lato', sans-serif;
+                font-size: 100px;
+                font-weight: 200;
+                margin-bottom: 0;
+            }
+            #vk_auth{
+                margin: 0 auto;
+            }
+        </style>
+        <!-- Put this script tag to the <head> of your page -->
+        <script type="text/javascript" src="//vk.com/js/api/openapi.js?136"></script>
+
+        <script type="text/javascript">
+          VK.init({apiId: 5732838});
+        </script>
+
+        <!-- Put this div tag to the place, where Auth block will be -->
+
+        <script type="text/javascript">
+        VK.Widgets.Auth("vk_auth", {width: "350px", authUrl: 'login/'});
+        </script>
+
+
+    </head>
+    <body>
+        <h1>Slim</h1>
+        <div>a microframework for PHP</div>
+        <div id="vk_auth"></div>
+        <?php if (isset($name)) : ?>
+            <h2>Hello <?= htmlspecialchars($name); ?>!</h2>
+        <?php else: ?>
+            <p>Try <a href="http://www.slimframework.com">SlimFramework</a>
+        <?php endif; ?>
+    </body>
+</html>
