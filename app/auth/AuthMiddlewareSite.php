@@ -26,7 +26,6 @@ class AuthMiddlewareSite extends Auth
 		session_start();
 		if(isset($_SESSION['user'])){
 		   //do something
-			echo 'Есть в сессиях Алоало';
 			print_r($cache->get('sess_'.session_id()));
 		}else
 			$_SESSION['user'] = 12345678910112;

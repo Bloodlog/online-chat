@@ -7,23 +7,16 @@ use \ArrayObject;
  *
  */
 class Server{
-	//public $session_id;
-	public $memcache;
+	// Кеш
+	private  $memcache;
+	// Массив настроек
 	private $settings;
-	public $socket;
-	public $connections = array();
 	// Массив подключений
-	public $connects = array();
+	public $connects;
 
-	protected $pid;
-	private $_handshakes = array();
 	public function __construct($settings){
 		$this->settings = new ArrayObject();
 		$this->settings = $settings['settings'];
-
-		//$session = new \App\db\memcache\MemcachedSessionHandler($cache);
-		//session_start();
-
 	}
 
 	public function run()
@@ -284,10 +277,16 @@ class Server{
 		echo "Open Socket: client ip " . $info['ip'] . " : " . $info['port'] . "\n";
 		//parse get-query
 		$sessionid = substr($info['get'], 1);
-		print_r($this->memcache->get('sess_'.$sessionid));
+		//print_r($this->memcache->get('sess_'.$sessionid));
 
 		echo 'Зарегистрирована сессия: ' . $sessionid . ' \n ';
-		fwrite($connect, $this->encode('Соединение установлено\n '));
+		$jsonData = [
+			'type'    => 'start',
+			'message' => 'Соединение установлено',
+			'name'    => 'МАкс',
+			'image'   => 'img',
+		];
+		fwrite($connect, $this->encode(json_encode($jsonData)));
 	}
 
 	public function onClose($connect) {
@@ -310,12 +309,38 @@ class Server{
 
 		echo 'sendMessage\n';
 		$encodeData = $this->decode($data);
-		$test = json_decode($encodeData['payload']);
+		$jsonData = json_decode($encodeData['payload']);
+		print_r($jsonData);
+		$action = $jsonData->type;
+		switch($action){
+			case 'getAllMessage':{
+				echo 'Получить все сообщения хочет клиент';
+				break;
+			}
+			case 'message':{
+
+				echo 'Сообщение прислал нам клиент';
+				print_r($jsonData);
+				$this->sendMessage($connect, $jsonData->message);
+				break;
+			}
+			case 'logout':{
+
+			}
+		}
 		//print_r($test);
 
 		//echo "\n" . decode($data)['payload'] . "\n";
 		//Отправить сообщение
-		fwrite($connect, json_encode($data));
+		//fwrite($connect, json_encode($data));
+	}
+	public function sendMessage($connect, $message){
+		echo 'Отправляем сообщение';
+		$jsonData = [
+			"type" => "addMessage",
+			"message" => $message,
+		];
+		fwrite($connect, $this->encode(json_encode($jsonData)));
 	}
 
 }

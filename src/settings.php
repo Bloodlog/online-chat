@@ -6,9 +6,9 @@ return [
         // Vk Api setting Apps
         'vk' => [
             // ID приложения 
-            'app_id' => '',
+            'app_id' => '5732838',
             //Защищённый ключ
-            'client_secret' => '',
+            'client_secret' => 'S65H4awjMoWqkmSr9qxP',
             // Адрес сайта
             'redirect_uri' => 'http://debian-server.web/online-chat/public_html/login/', 
         ],

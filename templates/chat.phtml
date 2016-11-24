@@ -7,15 +7,13 @@
     <link rel="stylesheet" type="text/css" href="<?= $basePath ?>/css/chat.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
     <script type="text/javascript">
-        var cookie = "";
-        //console.log(cookie);
-        var sessionMessage = {
-            "PHPSESSID" : cookie
+        var message = {
+            "type" : 'getAllMessage'
         };
         var socket = new WebSocket("ws://192.168.56.101:8000/<?php echo $_COOKIE['PHPSESSID'] ?>");
         socket.onopen = function() {
             alert("Соединение установлено.");
-            socket.send(JSON.stringify(sessionMessage));
+            socket.send(JSON.stringify(message));
         };
 
         socket.onclose = function(event) {
@@ -29,23 +27,49 @@
 
         socket.onmessage = function(event) {
             //alert("Получены данные " + event.data);
-            console.log('Получены данные ' + event.data);
+            var jsonData = JSON.parse(event.data);
+            console.log('Получены данные ' + jsonData);
+            if(jsonData.type == 'start'){
+                document.getElementById("myName").innerHTML = jsonData.name;
+            }
+            if(jsonData.type == 'addMessage'){
+                var chat = document.getElementById("chat");
+                chat.innerHTML = chat.innerHTML + jsonData.message + '<br>';
+            }
         };
 
         socket.onerror = function(error) {
             alert("Ошибка " + error.message);
         };
+        // Отправка сообщения
+        function sendMessage(socket){
+            var message = document.getElementById("message");
+            alert(message);
+            var jsonData = {
+                "type" : "message",
+                "message" : message.value
+            };
+            console.log(jsonData);
+            socket.send(JSON.stringify(jsonData));
+            // Очищаем поле ввода, желательно сделать калбек отправилось ли
+            message.value = '';
+            return false;
+        }
     </script>
     <script src="<?= $basePath ?>/js/client.js"></script>
 
 </head>
 <body>
 <div class="container">
+    <div id="chat" class="chat">
 
+    </div>
 </div>
 <div class="control">
-    <form>
-        <input type="text" name="text" id="text" placeholder="Type message and press Enter" tabindex="1">
+    <form onsubmit="return false">
+        <span id="myName"></span>
+        <input type="text"  name="message" id="message" placeholder="Type message and press Enter" tabindex="1">
+        <input type="submit" onclick="sendMessage(socket)"   value="send">
     </form>
 </div>
 </body>
